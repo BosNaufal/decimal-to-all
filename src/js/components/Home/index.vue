@@ -4,7 +4,7 @@
     <div class="container">
       <h1 class="text-center">Decimal To All</h1>
       <div class="center-block">
-        <input type="text" class="TextInput center-block" name="name" placeholder="Enter Your Number Here..." v-model="input">
+        <input type="text" class="TextInput center-block" name="name" placeholder="Enter Your Number Here..." v-model="input" :disabled="freeze">
       </div>
       <div class="center-block text-center">
         <button type="button" name="button" class="btn btn-success" @click="doConvert">Convert</button>
@@ -64,6 +64,7 @@
 
     data () {
       return {
+        freeze: false,
         input: null,
         binary: [],
         hexa: [],
@@ -103,19 +104,21 @@
       },
 
       doConvert() {
+        this.freeze = true
+
         // Octal
         this.lastResult = []
-        this.convert(171,8, false, "octal");
+        this.convert(this.input,8, false, "octal");
         this.octal = this.lastResult
 
         // Binary
         this.lastResult = []
-        this.convert(171,2, false, "binary");
+        this.convert(this.input,2, false, "binary");
         this.binary = this.lastResult
 
         // Hexa
         this.lastResult = []
-        this.convert(171,16, true, "hexa");
+        this.convert(this.input,16, true, "hexa");
         this.hexa = this.lastResult
 
       },
@@ -126,6 +129,7 @@
         this.hexa = []
         this.octal = []
         this.lastResult = []
+        this.freeze = false
       },
 
       convertToText(arg) {
